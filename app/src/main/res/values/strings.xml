@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">App Pilot</string>
+    <string name="input_label">Введите текст или телефон</string>
+    <string name="open_second_activity">Открыть вторую Activity</string>
+    <string name="call_friend">Позвонить другу</string>
+    <string name="share_text">Поделиться текстом</string>
+    <string name="error_empty_input">Введите текст</string>
+    <string name="error_invalid_phone">Введите корректный номер телефона</string>
+    <string name="share_via">Поделиться через…</string>
+    <string name="empty_message_placeholder">Пустое сообщение</string>
 </resources>
