@@ -1,12 +1,4 @@
-package com.example.myapplication.model
-
-enum class AppCategory {
-    FINANCE,
-    UTILITIES,
-    TRANSPORT,
-    MUSIC,
-    GAMES,
-}
+package com.example.myapplication.domain.model
 
 data class AppListEntry(
     val id: String,

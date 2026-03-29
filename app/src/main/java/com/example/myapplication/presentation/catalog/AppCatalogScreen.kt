@@ -1,4 +1,4 @@
-package com.example.myapplication.feature.catalog
+package com.example.myapplication.presentation.catalog
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +39,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import com.example.myapplication.model.AppCategory
-import com.example.myapplication.model.AppListEntry
+import com.example.myapplication.domain.model.AppCategory
+import com.example.myapplication.domain.model.AppListEntry
 
 @Composable
 fun AppCatalogRoute(

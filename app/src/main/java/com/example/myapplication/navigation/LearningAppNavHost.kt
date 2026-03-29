@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.feature.catalog.AppCatalogRoute
+import com.example.myapplication.presentation.catalog.AppCatalogRoute
 
 object LearningAppDestination {
     const val CATALOG = "catalog"
