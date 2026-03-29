@@ -3,8 +3,9 @@ package com.example.myapplication.data.mapper
 import com.example.myapplication.data.dto.AppListItemDto
 import com.example.myapplication.domain.model.AppCategory
 import com.example.myapplication.domain.model.AppListEntry
+import javax.inject.Inject
 
-class AppListMapper {
+class AppListMapper @Inject constructor() {
     fun toDomain(dto: AppListItemDto): AppListEntry = AppListEntry(
         id = dto.id,
         title = dto.title,

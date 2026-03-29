@@ -37,7 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.myapplication.domain.model.AppCategory
 import com.example.myapplication.domain.model.AppListEntry
@@ -45,7 +45,7 @@ import com.example.myapplication.domain.model.AppListEntry
 @Composable
 fun AppCatalogRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppCatalogViewModel = viewModel(),
+    viewModel: AppCatalogViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }

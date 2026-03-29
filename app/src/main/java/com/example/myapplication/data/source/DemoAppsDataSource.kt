@@ -1,8 +1,9 @@
 package com.example.myapplication.data.source
 
 import com.example.myapplication.data.dto.AppListItemDto
+import javax.inject.Inject
 
-class DemoAppsDataSource {
+class DemoAppsDataSource @Inject constructor() {
     fun loadAppList(): List<AppListItemDto> = demoApps
 }
 
