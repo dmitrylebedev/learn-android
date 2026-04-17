@@ -38,7 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.myapplication.model.AppDetailsEntry
+import com.example.myapplication.domain.model.AppDetailsEntry
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

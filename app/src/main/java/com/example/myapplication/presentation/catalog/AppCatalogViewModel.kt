@@ -27,9 +27,35 @@ class AppCatalogViewModel @Inject constructor(
     val event: SharedFlow<AppCatalogEvent> = _event.asSharedFlow()
 
     init {
+        loadApps()
+    }
+
+    fun retry() {
+        loadApps()
+    }
+
+    private fun loadApps() {
         viewModelScope.launch {
-            val apps = repository.getApps()
-            _state.update { it.copy(apps = apps) }
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching { repository.getApps() }
+                .onSuccess { apps ->
+                    _state.update {
+                        it.copy(
+                            apps = apps,
+                            isLoading = false,
+                            errorMessage = null,
+                        )
+                    }
+                }
+                .onFailure {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = "Не удалось загрузить каталог",
+                            apps = emptyList(),
+                        )
+                    }
+                }
         }
     }
 
