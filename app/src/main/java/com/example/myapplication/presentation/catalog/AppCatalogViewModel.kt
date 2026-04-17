@@ -2,6 +2,7 @@ package com.example.myapplication.presentation.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.R
 import com.example.myapplication.domain.repository.AppCatalogRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -33,6 +34,6 @@ class AppCatalogViewModel @Inject constructor(
     }
 
     fun onLogoClick() {
-        _event.tryEmit(AppCatalogEvent.ShowSnack("Логотип нажат"))
+        _event.tryEmit(AppCatalogEvent.ShowSnack(R.string.catalog_logo_clicked))
     }
 }

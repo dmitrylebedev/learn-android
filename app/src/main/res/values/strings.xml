@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">App Pilot</string>
+    <string name="catalog_logo_clicked">Логотип нажат</string>
 </resources>
