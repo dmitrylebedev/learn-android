@@ -2,6 +2,7 @@ package com.example.myapplication.presentation.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.R
 import com.example.myapplication.data.repository.AppCatalogRepositoryImpl
 import com.example.myapplication.domain.repository.AppCatalogRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -31,6 +32,6 @@ class AppCatalogViewModel : ViewModel() {
     }
 
     fun onLogoClick() {
-        _event.tryEmit(AppCatalogEvent.ShowSnack("Логотип нажат"))
+        _event.tryEmit(AppCatalogEvent.ShowSnack(R.string.catalog_logo_clicked))
     }
 }
