@@ -19,26 +19,28 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.myapplication.domain.model.AppCategory
 import com.example.myapplication.domain.model.AppListEntry
@@ -49,7 +51,7 @@ fun AppCatalogRoute(
     modifier: Modifier = Modifier,
     viewModel: AppCatalogViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -65,6 +67,9 @@ fun AppCatalogRoute(
 
     AppCatalogScreen(
         apps = state.apps,
+        isLoading = state.isLoading,
+        errorMessage = state.errorMessage,
+        onRetry = viewModel::retry,
         onAppClick = onAppClick,
         onLogoClick = viewModel::onLogoClick,
         snackbarHostState = snackbarHostState,
@@ -75,6 +80,9 @@ fun AppCatalogRoute(
 @Composable
 private fun AppCatalogScreen(
     apps: List<AppListEntry>,
+    isLoading: Boolean,
+    errorMessage: String?,
+    onRetry: () -> Unit,
     onAppClick: (String) -> Unit,
     onLogoClick: () -> Unit,
     snackbarHostState: SnackbarHostState,
@@ -87,21 +95,52 @@ private fun AppCatalogScreen(
             AppCatalogTopBar(onLogoClick = onLogoClick)
         }
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                start = 16.dp,
-                end = 16.dp,
-                top = innerPadding.calculateTopPadding() + 12.dp,
-                bottom = 20.dp,
-            ),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            items(items = apps, key = { it.id }) { app ->
-                AppCatalogRow(
-                    app = app,
-                    onClick = { onAppClick(app.id) },
-                )
+        when {
+            isLoading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            errorMessage != null -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(text = errorMessage)
+                        TextButton(onClick = onRetry) {
+                            Text(text = "Повторить")
+                        }
+                    }
+                }
+            }
+
+            else -> {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = innerPadding.calculateTopPadding() + 12.dp,
+                        bottom = 20.dp,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    items(items = apps, key = { it.id }) { app ->
+                        AppCatalogRow(
+                            app = app,
+                            onClick = { onAppClick(app.id) },
+                        )
+                    }
+                }
             }
         }
     }

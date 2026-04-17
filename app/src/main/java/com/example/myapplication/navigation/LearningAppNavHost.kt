@@ -7,9 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.myapplication.data.DemoAppsRepository
+import com.example.myapplication.feature.details.AppDetailsRoute
 import com.example.myapplication.presentation.catalog.AppCatalogRoute
-import com.example.myapplication.feature.details.AppCardScreen
 
 object LearningAppDestination {
     const val CATALOG = "catalog"
@@ -42,10 +41,8 @@ fun LearningAppNavHost(
             arguments = listOf(navArgument(LearningAppDestination.APP_ID) { type = NavType.StringType }),
         ) { backStackEntry ->
             val appId = backStackEntry.arguments?.getString(LearningAppDestination.APP_ID).orEmpty()
-            val details = DemoAppsRepository.findDetails(appId)
-
-            AppCardScreen(
-                details = details,
+            AppDetailsRoute(
+                appId = appId,
                 onBackClick = { navController.popBackStack() },
             )
         }
