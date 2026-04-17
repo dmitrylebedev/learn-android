@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,22 +45,27 @@ import com.example.myapplication.model.AppListEntry
 
 @Composable
 fun AppCatalogRoute(
+    onAppClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AppCatalogViewModel = viewModel(),
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
             when (event) {
-                is AppCatalogEvent.ShowSnack -> snackbarHostState.showSnackbar(event.message)
+                is AppCatalogEvent.ShowSnack -> snackbarHostState.showSnackbar(
+                    context.getString(event.messageResId)
+                )
             }
         }
     }
 
     AppCatalogScreen(
         apps = state.apps,
+        onAppClick = onAppClick,
         onLogoClick = viewModel::onLogoClick,
         snackbarHostState = snackbarHostState,
         modifier = modifier,
@@ -69,6 +75,7 @@ fun AppCatalogRoute(
 @Composable
 private fun AppCatalogScreen(
     apps: List<AppListEntry>,
+    onAppClick: (String) -> Unit,
     onLogoClick: () -> Unit,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
@@ -91,7 +98,10 @@ private fun AppCatalogScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(items = apps, key = { it.id }) { app ->
-                AppCatalogRow(app = app)
+                AppCatalogRow(
+                    app = app,
+                    onClick = { onAppClick(app.id) },
+                )
             }
         }
     }
@@ -139,11 +149,13 @@ private fun AppCatalogTopBar(
 @Composable
 private fun AppCatalogRow(
     app: AppListEntry,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {

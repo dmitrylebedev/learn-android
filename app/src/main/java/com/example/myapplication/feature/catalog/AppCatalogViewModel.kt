@@ -1,6 +1,7 @@
 package com.example.myapplication.feature.catalog
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.R
 import com.example.myapplication.data.DemoAppsRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,6 @@ class AppCatalogViewModel : ViewModel() {
     val event: SharedFlow<AppCatalogEvent> = _event.asSharedFlow()
 
     fun onLogoClick() {
-        _event.tryEmit(AppCatalogEvent.ShowSnack("Логотип нажат"))
+        _event.tryEmit(AppCatalogEvent.ShowSnack(R.string.catalog_logo_clicked))
     }
 }
